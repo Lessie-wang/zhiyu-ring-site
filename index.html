@@ -1,400 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<link rel="canonical" href="https://lessie-wang.github.io/zhiyu-ring-site/"><meta name="robots" content="index,follow"><title>知愈 Ring · 停一下，听见自己｜情绪觉察与呼吸引导</title>
-<meta name="description" content="知愈 Ring 将智能戒指与小知 App 结合，围绕日常情绪觉察、呼吸引导和对话。查看功能进展、证据与众筹项目。">
-<style>
-/* ============================================================
-   知愈 Ring · 落地页
-   设计语言：一道贯穿的极细凹槽 —— 呼吸的隐喻，也是环抱的手势
-   全站唯一的装饰元素就是这条 hairline
-   ============================================================ */
-:root{
-  --bg:#0A0A0B;
-  --bg-2:#111113;
-  --ink:#F2EFEA;      /* 暖白，不用纯白 */
-  --sub:#8B8880;
-  --dim:#57544E;
-  --accent:#D4B8A5;   /* 承接知愈品牌色，降饱和后与深底相配 */
-  --line:rgba(242,239,234,.10);
-  --line-2:rgba(242,239,234,.20);
-  --serif:"Songti SC","Source Han Serif SC","Noto Serif SC",serif;
-  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{
-  background:var(--bg);color:var(--ink);font-family:var(--sans);
-  line-height:1.9;letter-spacing:.02em;overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-section{
-  min-height:100svh;display:flex;flex-direction:column;justify-content:center;
-  padding:calc(env(safe-area-inset-top) + 64px) 28px calc(env(safe-area-inset-bottom) + 64px);
-  position:relative;max-width:600px;margin:0 auto;
-}
-/* ---- 贯穿全站的那道极细凹槽 ---- */
-.groove{position:fixed;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(180deg,
-  transparent,var(--line) 12%,var(--line) 88%,transparent);z-index:0;pointer-events:none}
-.wrap{position:relative;z-index:1}
-
-/* ================= 屏 1 · 钩子 ================= */
-#hook{justify-content:center;align-items:center;text-align:center}
-.hook-lead{font-size:16px;color:var(--sub);letter-spacing:.06em;margin-bottom:56px;
-  opacity:0;animation:fadeUp 1.2s .3s forwards}
-.pulse-wrap{position:relative;width:220px;height:220px;display:grid;place-items:center;
-  opacity:0;animation:fadeUp 1.2s .9s forwards}
-.pulse-btn{
-  width:76px;height:76px;border-radius:50%;border:1px solid var(--line-2);
-  background:radial-gradient(circle at 50% 45%,rgba(212,184,165,.13),transparent 70%);
-  cursor:pointer;position:relative;z-index:2;transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .5s;
-  display:grid;place-items:center;
-}
-.pulse-btn:active{transform:scale(.94)}
-.pulse-btn::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);
-  opacity:.85;animation:breathe 4.5s ease-in-out infinite}
-.ring-wave{position:absolute;inset:0;margin:auto;width:76px;height:76px;border-radius:50%;
-  border:1px solid var(--accent);opacity:0;pointer-events:none}
-.ring-wave.go{animation:wave 2.4s cubic-bezier(.15,.7,.3,1) forwards}
-.ring-wave.go:nth-child(2){animation-delay:.28s}
-.ring-wave.go:nth-child(3){animation-delay:.56s}
-@keyframes wave{0%{opacity:.5;transform:scale(1)}100%{opacity:0;transform:scale(3.1)}}
-@keyframes breathe{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:1;transform:scale(1.5)}}
-.hook-hint{margin-top:44px;font-size:13px;color:var(--dim);letter-spacing:.1em;
-  opacity:0;animation:fadeUp 1.2s 1.6s forwards}
-.reveal{margin-top:52px;font-family:var(--serif);font-size:19px;line-height:2.2;
-  color:var(--ink);opacity:0;transform:translateY(14px);transition:opacity 1.6s,transform 1.6s;
-  max-width:22em}
-.reveal.show{opacity:1;transform:none}
-.reveal .em{color:var(--accent)}
-.scroll-cue{position:absolute;bottom:34px;left:0;right:0;text-align:center;font-size:11px;
-  color:var(--dim);letter-spacing:.3em;opacity:0;transition:opacity 1.2s}
-.scroll-cue.show{opacity:1;animation:bob 3s ease-in-out infinite 1.2s}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
-
-/* ================= 通用动效 ================= */
-@keyframes fadeUp{to{opacity:1;transform:none}}
-.up{opacity:1;transform:translateY(0);transition:opacity 1.1s cubic-bezier(.2,.8,.2,1),transform 1.1s cubic-bezier(.2,.8,.2,1)}
-.up.in{opacity:1;transform:none}
-
-/* ================= 屏 2 · 这是什么 ================= */
-.hero-line{font-family:var(--serif);font-size:25px;line-height:2.05;letter-spacing:.04em}
-.hero-line .quiet{color:var(--sub)}
-.hairline{height:1px;background:var(--line);margin:44px 0;width:56px}
-/* ---- 3D 戒指舞台 ---- */
-.stage{position:relative;width:100%;height:246px;margin:26px 0 2px;touch-action:pan-y}
-.stage canvas{width:100%;height:100%;display:block}
-.stage-fb{position:absolute;inset:0;display:grid;place-items:center;font-size:12px;
-  color:var(--dim);letter-spacing:.2em;pointer-events:none;transition:opacity .8s}
-.stage-fb.gone{opacity:0}
-.stage-hint{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:11px;
-  color:var(--dim);letter-spacing:.28em;transition:opacity .6s;pointer-events:none}
-.stage-hint.gone{opacity:0}
-.swatches{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
-.sw{display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--line);
-  color:var(--sub);padding:9px 15px;font-size:12.5px;letter-spacing:.06em;cursor:pointer;
-  font-family:var(--sans);border-radius:2px;transition:border-color .35s,color .35s}
-.sw i{width:13px;height:13px;border-radius:50%;display:block;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
-.sw.is-on{border-color:var(--accent);color:var(--ink)}
-.sw-ghost{margin-left:auto;border-style:dashed;border-color:var(--line)}
-.spec{margin-top:16px;font-size:11.5px;color:var(--sub);letter-spacing:.04em;line-height:1.95}
-.spec b{color:var(--ink);font-weight:500}
-.what{margin-top:22px;font-size:14px;color:var(--sub);line-height:2.05;letter-spacing:.03em}
-.what b{color:var(--ink);font-weight:500}
-.kicker{font-size:12px;letter-spacing:.34em;color:var(--dim);margin-bottom:26px}
-
-/* ================= 屏 3 · 凭什么 ================= */
-.cards{display:flex;flex-direction:column;gap:1px;background:var(--line);
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:8px}
-.card{background:var(--bg);padding:24px 4px 26px}
-.card .n{font-size:10.5px;letter-spacing:.3em;color:var(--accent);opacity:.7;margin-top:20px}
-.card h3{font-size:17px;font-weight:500;margin:7px 0 5px;letter-spacing:.04em}
-.card p{font-size:13px;color:var(--sub);letter-spacing:.04em}
-.note{margin-top:28px;font-size:11px;color:var(--dim);letter-spacing:.03em}
-
-/* ---- 屏3 三个动效 ---- */
-.viz{position:relative;height:66px;display:grid;place-items:center;overflow:hidden}
-/* 01 心电流动 */
-.viz svg{width:100%;height:62px}
-.ecg path{fill:none;stroke:var(--accent);stroke-width:1.1;stroke-linecap:round;
-  stroke-linejoin:round;opacity:.85;vector-effect:non-scaling-stroke}
-.ecg{animation:flow 5.5s linear infinite}
-@keyframes flow{from{transform:translateX(0)}to{transform:translateX(-240px)}}
-/* 02 空到只剩一个点 */
-.viz-quiet{opacity:.9}
-.lonely{width:5px;height:5px;border-radius:50%;background:var(--sub);
-  animation:slowbreath 7s ease-in-out infinite}
-@keyframes slowbreath{0%,100%{opacity:.22;transform:scale(1)}50%{opacity:.7;transform:scale(1.25)}}
-/* 03 波纹到不了围栏外 */
-.core{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--accent)}
-.rip{position:absolute;width:6px;height:6px;border-radius:50%;
-  border:1px solid var(--accent);opacity:0;animation:contained 3.6s ease-out infinite}
-.rip:nth-of-type(2){animation-delay:1.2s}
-.rip:nth-of-type(3){animation-delay:2.4s}
-@keyframes contained{0%{opacity:.75;transform:scale(1)}
-  70%{opacity:.14;transform:scale(5.6)}100%{opacity:0;transform:scale(6)}}
-.fence{position:absolute;width:52px;height:52px;border-radius:50%;
-  border:1px dashed rgba(242,239,234,.14)}
-/* 04 一个粗糙的词，慢慢换成更准的词 */
-.guess{position:absolute;font-family:var(--serif);font-size:19px;letter-spacing:.08em;
-  opacity:0;animation:swap 9s ease-in-out infinite}
-.guess.g1{color:var(--dim)}
-.guess.g2{color:var(--sub);animation-delay:3s}
-.guess.g3{color:var(--accent);animation-delay:6s}
-@keyframes swap{
-  0%{opacity:0;transform:translateY(6px)}
-  8%,26%{opacity:1;transform:none}
-  34%,100%{opacity:0;transform:translateY(-6px)}
-}
-
-/* ================= 屏 4 · CTA ================= */
-.price-row{display:flex;align-items:baseline;gap:12px;margin:6px 0 4px}
-.price{font-size:42px;font-family:var(--serif);letter-spacing:.02em}
-.price small{font-size:15px;color:var(--sub);font-family:var(--sans)}
-.perk{font-size:13.5px;color:var(--sub);line-height:2.1;margin-top:14px}
-.perk .em{color:var(--accent)}
-.cta{
-  display:block;width:100%;margin-top:34px;padding:19px;
-  background:var(--accent);color:#17140F;border:none;border-radius:2px;
-  font-size:16px;font-weight:600;letter-spacing:.08em;font-family:var(--sans);
-  cursor:pointer;transition:opacity .3s,transform .3s;
-}
-.cta:active{transform:scale(.985);opacity:.9}
-.cta-sub{margin-top:16px;font-size:11.5px;color:var(--dim);text-align:center;letter-spacing:.05em}
-/* ---- 名额 ---- */
-.quota-line{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:2px 0 4px;
-  font-size:12.5px;color:var(--sub);letter-spacing:.06em}
-.quota-line b{color:var(--accent);font-weight:500;font-size:14px}
-.q-past{color:var(--dim);font-size:11.5px;letter-spacing:.04em}
-.q-past::before{content:"· "}
-.cta[disabled]{opacity:.5;cursor:not-allowed}
-/* ---- 真人留言 ---- */
-.quotes{margin-top:46px;border-top:1px solid var(--line);padding-top:26px}
-.q-h{font-size:11px;letter-spacing:.3em;color:var(--dim);margin-bottom:18px}
-.q-item{font-family:var(--serif);font-size:14.5px;line-height:2.05;color:var(--sub);
-  padding:13px 0 13px 14px;border-left:1px solid var(--line-2)}
-.q-item + .q-item{margin-top:2px}
-
-/* ================= 诚实页（模态） ================= */
-.sheet{position:fixed;inset:0;background:var(--bg);z-index:50;overflow-y:auto;
-  opacity:0;pointer-events:none;transition:opacity .7s}
-.sheet.open{opacity:1;pointer-events:auto}
-.sheet-in{max-width:600px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 84px) 28px 80px}
-.sheet h2{font-family:var(--serif);font-size:23px;line-height:2;margin-bottom:30px;letter-spacing:.03em}
-.sheet p{font-size:15px;color:var(--sub);line-height:2.15;margin-bottom:22px}
-.sheet p.strong{color:var(--ink)}
-.sheet .em{color:var(--accent)}
-.close{position:fixed;top:calc(env(safe-area-inset-top) + 22px);right:24px;z-index:52;
-  width:40px;height:40px;border:none;background:none;color:var(--dim);font-size:26px;
-  cursor:pointer;line-height:1}
-/* 表单 */
-.field{margin-top:26px}
-.field label{display:block;font-size:12px;letter-spacing:.2em;color:var(--dim);margin-bottom:12px}
-.field input,.field textarea{
-  width:100%;background:transparent;border:none;border-bottom:1px solid var(--line-2);
-  color:var(--ink);font-size:16px;font-family:var(--sans);padding:11px 0;
-  outline:none;transition:border-color .4s;resize:none;line-height:1.9;
-}
-.field input:focus,.field textarea:focus{border-color:var(--accent)}
-.field input::placeholder,.field textarea::placeholder{color:var(--dim)}
-.ok{display:none;text-align:center;padding-top:16px}
-.ok.show{display:block;animation:fadeUp .9s forwards}
-.ok .tick{font-size:30px;color:var(--accent);margin-bottom:22px}
-.wx-box{border:1px solid var(--line-2);padding:26px;margin-top:26px;text-align:center}
-.payee-note{margin-top:20px;font-size:13px;line-height:2.05;text-align:left;
-  border-left:1px solid var(--line-2);padding-left:15px;color:var(--sub)}
-.payee-note b{color:var(--ink);font-weight:500}
-/* 条款 */
-.terms{margin-top:8px;border-top:1px solid var(--line)}
-.term{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--line);
-  font-size:13.5px;color:var(--sub);line-height:2.05}
-.term b{color:var(--ink);font-weight:500;display:block;margin-bottom:4px}
-.t-n{font-size:10.5px;letter-spacing:.18em;color:var(--accent);opacity:.7;padding-top:6px;flex:0 0 20px}
-.agree{display:flex;align-items:center;gap:10px;margin-top:32px;font-size:13.5px;
-  color:var(--sub);cursor:pointer;user-select:none}
-.agree input{width:17px;height:17px;accent-color:var(--accent);flex:0 0 17px}
-.qr{width:190px;height:190px;object-fit:contain;background:#fff;padding:9px;border-radius:3px}
-.wx-id{font-size:22px;font-family:var(--serif);letter-spacing:.1em;margin:14px 0 20px;color:var(--accent)}
-.copy-btn{background:none;border:1px solid var(--line-2);color:var(--ink);padding:11px 26px;
-  font-size:13px;letter-spacing:.1em;cursor:pointer;font-family:var(--sans);transition:border-color .3s}
-.copy-btn:active{border-color:var(--accent)}
-footer{padding:52px 28px calc(env(safe-area-inset-bottom) + 44px);text-align:center;
-  font-size:11px;color:var(--dim);line-height:2.2;border-top:1px solid var(--line);
-  max-width:600px;margin:0 auto}
-@media(max-width:360px){.hero-line{font-size:22px}.price{font-size:36px}}
-a{color:var(--accent);text-underline-offset:5px}.cta{text-decoration:none;text-align:center}a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:5px}.spec,.cta-sub,footer{color:#aaa49b}.kicker{font-weight:400} @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition:none!important}.hook-lead,.pulse-wrap,.hook-hint{opacity:1}}
-</style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "知愈 Ring", "url": "https://lessie-wang.github.io/zhiyu-ring-site/", "inLanguage": "zh-CN", "description": "知愈Ring日常情绪觉察、呼吸引导与产品进展资料站"}</script></head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>知愈 Ring · 停一下，听见自己</title>
+<meta name="description" content="知愈 Ring，将指尖触觉、呼吸引导与小知对话放在一起，陪你留意日常感受。了解产品体验、研发进展与公开证据。">
+<meta name="author" content="zhiyu_ring"><meta name="robots" content="index,follow">
+<link rel="canonical" href="https://lessie-wang.github.io/zhiyu-ring-site/">
+<meta property="og:title" content="知愈 Ring · 停一下，听见自己"><meta property="og:description" content="给一直向前的生活，留一个回到自己的片刻。"><meta property="og:type" content="website">
+<meta name="theme-color" content="#f5f2eb"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="site.css">
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"知愈 Ring","url":"https://lessie-wang.github.io/zhiyu-ring-site/","inLanguage":"zh-CN","creator":{"@type":"Person","name":"zhiyu_ring"}}</script>
+<script src="site.js" type="module"></script>
+</head>
 <body>
-<div class="groove"></div>
-
-<!-- ══════════ 屏 1 · 钩子 ══════════ -->
-<section id="hook">
-  <div class="wrap" style="display:flex;flex-direction:column;align-items:center">
-    <p class="hook-lead">把手机握在手心，<br>然后点一下。</p>
-
-    <div class="pulse-wrap">
-      <span class="ring-wave"></span>
-      <span class="ring-wave"></span>
-      <span class="ring-wave"></span>
-      <button class="pulse-btn" id="pulse" aria-label="感受一次"></button>
-    </div>
-
-    <p class="hook-hint" id="hint">手机触觉演示 · 支持情况因设备而异</p>
-
-    <p class="reveal" id="reveal">
-      停一下，留意此刻的感受。<br><br>
-      指尖的提示，呼吸的片刻，<br>
-      陪你<span class="em">慢慢听见自己</span>。
-    </p>
-  </div>
-  <div class="scroll-cue" id="cue">向 下</div>
+<a class="skip" href="#main">跳到正文</a>
+<header class="site-header"><a class="brand" href="./" aria-label="知愈 Ring 首页"><span class="brand-symbol" aria-hidden="true">✳</span><span>知愈<span class="brand-en">RING</span></span></a>
+<nav aria-label="主导航"><a href="#experience">体验</a><a href="#moments">日常</a><a href="#progress">进展</a><a class="nav-cta" href="https://zhongchou.modian.com/item/159790.html" target="_blank" rel="noopener noreferrer">了解众筹 <span aria-hidden="true">↗</span></a></nav></header>
+<main id="main">
+<section class="hero shell" aria-labelledby="hero-title">
+<div class="hero-copy"><p class="eyebrow"><span class="status-dot"></span> 情绪觉察 · 呼吸引导 · AI 陪伴</p>
+<h1 id="hero-title">停一下，<br>听见<span class="title-mark">自己。</span></h1>
+<p class="hero-lead">给一直向前的生活，<br>留一个回到自己的片刻。</p>
+<p class="hero-detail">知愈 Ring，把指尖的提示、呼吸引导与小知对话放在一起，陪你留意身体，也慢慢把感受说清楚。</p>
+<div class="actions"><a class="button primary" href="#experience">认识知愈 <span aria-hidden="true">↓</span></a><a class="text-link" href="product-evidence.html">产品与证据 <span aria-hidden="true">↗</span></a></div>
+<p class="hero-note">产品验证进行中 <span>／</span> 查看真实进展，再做决定</p></div>
+<div class="hero-object"><div class="object-top"><span>ZH I YU · RING</span><span>01 / 觉察的起点</span></div>
+<div class="stage"><div class="stage-orbit" aria-hidden="true"></div><canvas id="ringCanvas" aria-label="可拖动旋转的戒指概念模型"></canvas><p id="ringFallback" class="ring-fallback">戒指概念模型加载中</p><span class="stage-label">a little space<br>for yourself.</span></div>
+<div class="object-controls"><div class="finish-group" role="group" aria-label="概念模型配色"><button class="finish active" data-finish="silver" aria-pressed="true"><span class="swatch silver"></span>银色</button><button class="finish" data-finish="black" aria-pressed="false"><span class="swatch black"></span>黑色</button></div><button class="inside-button" id="inside">看看内侧 ↻</button></div>
+<p class="object-caption">拖动可旋转 · 3D 概念展示，实际外观以最终产品说明为准</p></div>
 </section>
-
-<!-- ══════════ 屏 2 · 这是什么 ══════════ -->
-<section>
-  <div class="wrap">
-    <h1 class="kicker up">知愈 RING · 情绪觉察与呼吸引导</h1>
-    <p class="hero-line up">
-      一个停下来的提示。<br>
-      <span class="quiet">给一直绷着的自己。</span>
-    </p>
-
-    <!-- 3D 戒指 -->
-    <div class="stage up">
-      <canvas id="ringCanvas" aria-label="可旋转的戒指概念模型"></canvas>
-      <div class="stage-fb" id="ringFb">概念渲染加载中…</div>
-      <div class="stage-hint" id="ringHint">拖动可旋转</div>
-    </div>
-    <div class="swatches up">
-      <button class="sw is-on" data-finish="black"><i style="background:linear-gradient(140deg,#3A3C41,#131417)"></i>黑色概念</button>
-      <button class="sw" data-finish="silver"><i style="background:linear-gradient(140deg,#E4E7EA,#A8ADB4)"></i>银色概念</button>
-      <button class="sw sw-ghost" id="seeInside">看内侧 ↻</button>
-    </div>
-
-    <p class="what up">
-      智能戒指与小知 App，一起留意日常感受。<br>
-      <b>从身体状态提示，到呼吸引导，再到把感受说具体。</b>
-    </p>
-
-    <p class="spec up">上方为可交互概念模型，外观与尺寸以最终产品说明为准。<br><span>当前处于众筹与产品验证阶段。功能进展依据截至 2026年10月17日的记录。</span></p>
-  </div>
-</section>
-
-<!-- ══════════ 屏 3 · 凭什么 ══════════ -->
-<section>
-  <div class="wrap">
-    <h2 class="kicker up">怎 样 陪 你</h2>
-    <div class="cards">
-
-      <div class="card up">
-        <div class="viz">
-          <svg viewBox="0 0 240 62" preserveAspectRatio="none" aria-hidden="true">
-            <g class="ecg">
-              <path d="M0,31 H26 l7,-2 6,4 7,-2 H70 l5,-19 5,38 5,-19 H240
-                       M240,31 H266 l7,-2 6,4 7,-2 H310 l5,-19 5,38 5,-19 H480"/>
-            </g>
-          </svg>
-        </div>
-        <div class="n">01</div>
-        <h3>从身体线索开始</h3>
-        <p>提醒功能的适用版本与测试表现，见产品进展</p>
-      </div>
-
-      <div class="card up">
-        <div class="viz viz-quiet">
-          <span class="lonely"></span>
-        </div>
-        <div class="n">02</div>
-        <h3>跟着提示，慢慢呼吸</h3>
-        <p>呼吸相位切换时给予触觉提示</p>
-      </div>
-
-      <div class="card up">
-        <div class="viz">
-          <span class="fence"></span>
-          <span class="rip"></span><span class="rip"></span><span class="rip"></span>
-          <span class="core"></span>
-        </div>
-        <div class="n">03</div>
-        <h3>相位中间，留出安静</h3>
-        <p>完整真机体验持续验证</p>
-      </div>
-
-      <div class="card up">
-        <div class="viz">
-          <span class="guess g1">烦</span>
-          <span class="guess g2">委屈</span>
-          <span class="guess g3">被冒犯</span>
-        </div>
-        <div class="n">04</div>
-        <h3>一起把感觉说具体</h3>
-        <p>小知听你描述，再一起梳理感受</p>
-        <p style="font-size:11.5px;color:var(--dim);letter-spacing:.04em;margin-top:10px">
-          情绪的含义，由你结合自己的经历确认</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section id="progress"><div class="wrap">
-<p class="kicker up">从 进 展 开 始 了 解</p><h2 class="hero-line up">每一步，都有迹可循。</h2>
-<p class="what up">知愈采用成熟戒指方案，通过供应商固件与 SDK 连接自有 App。我们持续打磨触觉提示、呼吸引导和小知对话体验。</p>
-<p class="spec up">10月16日完成一轮真机指令测试，调整两端呼吸引导：进入吸气、停留、呼气阶段时各给一次提示，相位中间保持安静。完整体验继续验证。</p>
-<div class="up"><a class="cta" href="https://zhongchou.modian.com/item/159790.html" target="_blank" rel="noopener noreferrer">查看摩点众筹项目 ↗</a><p class="cta-sub">购买前请核对项目最新功能、价格、交付与售后条款</p>
-<p style="margin-top:28px"><a href="product-evidence.html">阅读产品与证据说明 →</a></p></div></div></section>
-<footer><nav aria-label="资料导航"><a href="product-evidence.html">产品与证据</a> · <a href="product-facts.json">产品事实</a> · <a href="privacy.html">本站隐私说明</a></nav>
-知愈 Ring · 停一下，听见自己<br>资料复核：2026年10月24日 · 引用进展：2026年10月17日<br>本页触觉为手机交互演示；3D为概念模型。产品功能与交付以正式说明为准。</footer>
-<script type="importmap">
-{"imports":{"three":"./vendor/three.module.js"}}
-</script>
-<script type="module">
-/* ---------- 3D 戒指（失败则静默降级，不影响页面） ---------- */
-import('./ring3d.js').then(({mountRing}) => {
-  const cv = document.getElementById('ringCanvas');
-  const ring = mountRing(cv);
-  window.__ring = ring;
-  document.getElementById('ringFb').classList.add('gone');
-
-  document.querySelectorAll('.sw[data-finish]').forEach(b => {
-    b.addEventListener('click', () => {
-      document.querySelectorAll('.sw[data-finish]').forEach(x => x.classList.remove('is-on'));
-      b.classList.add('is-on');
-      ring.setFinish(b.dataset.finish);
-      
-      if(navigator.vibrate) try{ navigator.vibrate(10); }catch(e){}
-    });
-  });
-  document.getElementById('seeInside').addEventListener('click', () => {
-    ring.showInside();
-    
-  });
-
-  const hint = document.getElementById('ringHint');
-  const hide = () => hint.classList.add('gone');
-
-  cv.addEventListener('pointerdown', hide, {once:true});
-  cv.addEventListener('touchstart', hide, {once:true, passive:true});
-  setTimeout(hide, 9000);
-}).catch(err => {
-  console.warn('[ring3d] 未能加载：', err);
-  document.getElementById('ringFb').textContent = '（3D 预览需要联网 · 不影响其余内容）';
-  document.getElementById('ringHint').style.display = 'none';
-});
-</script>
-
-<script>
-const pulse=document.getElementById('pulse');
-pulse.addEventListener('click',()=>{
- document.querySelectorAll('.ring-wave').forEach(el=>{el.classList.remove('go');void el.offsetWidth;el.classList.add('go')});
- if(navigator.vibrate) navigator.vibrate([40,80,40]);
- document.getElementById('reveal').classList.add('show');document.getElementById('cue').classList.add('show');
- document.getElementById('hint').textContent='手机交互演示 · 戒指实际触感需以真机体验为准';
-});
-const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');observer.unobserve(e.target)}}),{threshold:0.1});
-document.querySelectorAll('.up').forEach(el=>observer.observe(el));
-</script></body></html>
+<div class="intro-line shell"><span class="mini-symbol" aria-hidden="true">✳</span><p>身体的变化，是觉察的起点。<br class="mobile-break">情绪的名字，由你自己来定。</p><span class="intro-index">01 — 03</span></div>
+<section class="experience shell" id="experience" aria-labelledby="experience-title"><div class="section-heading"><div><p class="eyebrow">THE EXPERIENCE / 三个片刻</p><h2 id="experience-title">一点点，回到自己。</h2></div><p class="section-aside">从一个轻提示开始，<br>到一段愿意说出口的话。</p></div>
+<div class="experience-grid">
+<article class="experience-card touch-card"><div class="card-top"><span>01</span><span>留意</span></div><div class="touch-visual" aria-hidden="true"><span class="touch-ring"></span><span class="touch-wave w1"></span><span class="touch-wave w2"></span><i></i></div><h3>指尖的一下，<br>提醒你留意当下。</h3><p>把身体状态的变化，变成一个关心自己的起点。提醒功能的适用版本与测试进展，持续公开记录。</p><button class="card-action" id="touchDemo">感受一次轻提示 <span aria-hidden="true">↗</span></button><p class="demo-note" id="touchStatus" aria-live="polite">手机触觉演示 · 支持情况因设备而异</p></article>
+<article class="experience-card breathe-card"><div class="card-top"><span>02</span><span>呼吸</span></div><div class="breathe-visual" aria-hidden="true"><div class="breath-circle"><span>慢一点</span></div><span class="breath-axis"></span></div><h3>跟着提示，<br>留一段安静的时间。</h3><p>呼吸引导在相位切换时给出触觉提示；阶段中间，留出安静。完整真机体验持续验证。</p><p class="card-footnote">吸气 · 停留 · 呼气<br>相位触觉实现记录：2026.10.16</p></article>
+<article class="experience-card chat-card"><div class="card-top"><span>03</span><span>说说</span></div><div class="chat-visual" aria-label="小知对话示意"><span class="chat-orb" aria-hidden="true"></span><p class="bubble">今天，有什么想慢慢说的？</p><span class="bubble-caption">小知 · 对话示意</span></div><h3>说不清的感受，<br>可以慢慢说。</h3><p>小知先听你描述经历，再和你一起把感受说具体，寻找此刻愿意尝试的一小步。</p><p class="card-footnote">你的经历，你的感受。<br>始终由你参与确认。</p></article>
+</div></section>
+<section class="moments" id="moments"><div class="shell moments-inner"><div><p class="eyebrow">EVERYDAY MOMENTS / 日常里</p><h2>有些时刻，<br>值得把自己放在心上。</h2><p class="moments-intro">不必等到有一个完整的答案，<br>才开始留意自己的感受。</p></div><div class="moment-list"><article><span>01</span><div><h3>工作一直在向前，你也一直绷着。</h3><p>忙完一件又一件，给自己一个停下来留意身体的片刻。</p></div><span aria-hidden="true">↘</span></article><article><span>02</span><div><h3>一句话过去了，感受还留在那里。</h3><p>从“有点烦”开始，慢慢找到更贴近自己的表达。</p></div><span aria-hidden="true">↘</span></article><article><span>03</span><div><h3>想给自己一点空间，又不知从哪开始。</h3><p>从一次呼吸、一小段对话，试着回到当下。</p></div><span aria-hidden="true">↘</span></article></div></div></section>
+<section class="progress shell" id="progress"><div class="section-heading"><div><p class="eyebrow">BUILDING IN THE OPEN / 公开进展</p><h2>认真打磨，也认真记录。</h2></div><a class="text-link" href="product-evidence.html">查看证据与功能状态 ↗</a></div>
+<div class="progress-layout"><div class="progress-summary"><span class="progress-pill"><span class="status-dot"></span> 众筹与产品验证阶段</span><p>采用成熟戒指方案，通过供应商固件与 SDK 连接自有 App，持续打磨触觉、呼吸和小知体验。</p><p class="fine-print">以下进展来源截至 2026年10月17日，更新的功能、购买与交付安排请查阅摩点项目。</p></div><div class="timeline"><article><time datetime="2026-10-16">2026.10.16</time><div><h3>真机指令测试与呼吸引导调整</h3><p>两端在吸气、停留、呼气相位切换时给出触觉提示，阶段中间保持安静。</p></div></article><article><time datetime="2026-10-17">2026.10.17</time><div><h3>发布首篇产品进展</h3><p>公开供应商方案、自有 App 分工与下一步真机体验验证。</p><a href="https://www.modian.com/project/update/detail/224347" target="_blank" rel="noopener noreferrer">阅读原始记录 ↗</a></div></article></div></div></section>
+<section class="faq shell" aria-labelledby="faq-title"><div><p class="eyebrow">A FEW QUESTIONS / 先了解清楚</p><h2 id="faq-title">你可能想问。</h2></div><div class="faq-list"><details><summary>知愈 Ring 现在处于什么阶段？<span aria-hidden="true">＋</span></summary><p>本页引用的最新公开记录截至2026年10月17日，知愈处于众筹与产品验证阶段。购买前请核对摩点项目最新功能、价格、预计交期和售后条款。</p></details><details><summary>戒指能知道我为什么难受吗？<span aria-hidden="true">＋</span></summary><p>身体变化需要结合活动与个人情境理解。小知围绕你提供的信息梳理感受，情绪的具体含义由你参与确认。</p></details><details><summary>它适合医疗诊断或治疗吗？<span aria-hidden="true">＋</span></summary><p>知愈围绕日常情绪觉察与呼吸引导设计。现有资料尚未建立知愈改善焦虑或治疗心理疾病的产品效果结论。医疗诊断与治疗请寻求专业服务。</p></details><details><summary>网站和 App 的数据怎样处理？<span aria-hidden="true">＋</span></summary><p>本站提供公开资料，不设留资与支付表单，不使用访问统计或广告追踪脚本。App的数据采集、云端处理和删除机制，请以实际服务隐私政策为准。<a href="privacy.html">阅读本站隐私说明 ↗</a></p></details></div></section>
+<section class="closing shell"><p class="eyebrow">A LITTLE SPACE FOR YOURSELF</p><h2>让关心自己，<br>从一个片刻开始。</h2><a class="button primary" href="https://zhongchou.modian.com/item/159790.html" target="_blank" rel="noopener noreferrer">前往摩点了解知愈 <span aria-hidden="true">↗</span></a><p>先了解真实进展，再做适合自己的决定。</p><span class="closing-flower" aria-hidden="true">✳</span></section>
+</main>
+<footer class="site-footer shell"><div class="footer-main"><a class="brand" href="./"><span class="brand-symbol" aria-hidden="true">✳</span>知愈 <span class="brand-en">RING</span></a><nav aria-label="资料导航"><a href="product-evidence.html">产品与证据</a><a href="privacy.html">本站隐私</a><a href="product-facts.json">产品事实 JSON</a><a href="llms.txt">Agent 索引</a></nav></div><div class="footer-bottom"><span>由 <strong>zhiyu_ring</strong> 制作与维护</span><span>内容整理 2026.10.30 · 进展来源截至 2026.10.17</span></div></footer>
+</body></html>

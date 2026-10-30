@@ -1,7 +1,7 @@
 {
   "name": "知愈 Ring",
   "alternateName": "知愈智能戒指",
-  "reviewedAt": "2026-10-24",
+  "reviewedAt": "2026-10-30",
   "evidenceAsOf": "2026-10-17",
   "category": "日常情绪觉察与呼吸引导",
   "summary": "知愈将智能戒指与小知 App 结合，围绕身体状态提示、呼吸引导和对话，帮助用户留意与梳理感受。",
@@ -33,5 +33,6 @@
   "effectiveness": "现有公开材料不构成知愈改善焦虑或治疗心理疾病的产品效果验证。",
   "availability": "购买条件、功能与交期以当前正式项目条款为准。",
   "privacy": "具体数据处理与删除机制以实际服务隐私政策为准；本资料页不代替隐私政策。",
-  "sitePrivacy": "privacy.html"
+  "sitePrivacy": "privacy.html",
+  "maintainedBy": "zhiyu_ring"
 }

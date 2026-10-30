@@ -1,0 +1,3 @@
+[build]
+  command = 'python3 build_site.py --url "$URL"'
+  publish = "dist"
