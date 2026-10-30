@@ -2,7 +2,9 @@
 
 由 **zhiyu_ring** 制作与维护。
 
-当前公开站：https://lessie-wang.github.io/zhiyu-ring-site/
+正式网站：https://zhiyu-ring.netlify.app/
+
+备用站：https://lessie-wang.github.io/zhiyu-ring-site/（canonical指向正式网站）
 
 ## 本地预览
 

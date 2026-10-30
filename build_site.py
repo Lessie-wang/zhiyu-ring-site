@@ -21,7 +21,8 @@ files = ['index.html', 'product-evidence.html', 'privacy.html', 'product-facts.j
 for name in files:
     text = (root / name).read_text()
     if name.endswith(('.html', '.xml', '.txt', '.json')):
-        text = text.replace('https://lessie-wang.github.io/zhiyu-ring-site', origin)
+        for source_url in ['https://lessie-wang.github.io/zhiyu-ring-site', 'https://zhiyu-ring.netlify.app']:
+            text = text.replace(source_url, origin)
     (out / name).write_text(text)
 shutil.copytree(root / 'vendor', out / 'vendor', dirs_exist_ok=True)
 (out / '.nojekyll').touch()

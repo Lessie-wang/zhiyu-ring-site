@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lessie-wang.github.io/zhiyu-ring-site/sitemap.xml
+Sitemap: https://zhiyu-ring.netlify.app/sitemap.xml

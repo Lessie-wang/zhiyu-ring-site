@@ -1,0 +1,8 @@
+{
+  "siteId": "b709ddd5-362a-47c3-bb33-9b8fee1ee45d",
+  "name": "zhiyu-ring",
+  "url": "https://zhiyu-ring.netlify.app",
+  "dashboard": "https://app.netlify.com/projects/zhiyu-ring/overview",
+  "deploymentMethod": "manual public dist upload",
+  "signature": "zhiyu_ring"
+}

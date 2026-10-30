@@ -3,9 +3,9 @@
 > 智能戒指与小知 App，围绕日常情绪觉察、呼吸引导与对话。
 
 ## 产品与证据
-- [产品与证据说明](https://lessie-wang.github.io/zhiyu-ring-site/product-evidence.html)：适用场景、功能状态、进展与效果范围。
-- [产品事实](https://lessie-wang.github.io/zhiyu-ring-site/product-facts.json)：带来源日期的公开产品摘要。
-- [产品介绍](https://lessie-wang.github.io/zhiyu-ring-site/index.html)：品牌落地页与体验入口。
+- [产品与证据说明](https://zhiyu-ring.netlify.app/product-evidence.html)：适用场景、功能状态、进展与效果范围。
+- [产品事实](https://zhiyu-ring.netlify.app/product-facts.json)：带来源日期的公开产品摘要。
+- [产品介绍](https://zhiyu-ring.netlify.app/index.html)：品牌落地页与体验入口。
 
 ## 信息日期
 资料整理：2026-10-30；最新引用进展：2026-10-17。产品状态需结合后续更新阅读。
