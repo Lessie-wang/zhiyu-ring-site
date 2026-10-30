@@ -29,3 +29,11 @@
 .listening-sign{position:absolute;left:31px;bottom:36px;font-size:9px;letter-spacing:2px;color:#8d7a64}
 .conversation-visual .visual-caption{font-size:7px;bottom:13px;color:#9b8d7a}
 @media(prefers-reduced-motion:reduce){.rhythm-main,.rhythm-echo,.rhythm-phases span{animation:none;opacity:1}}
+
+/* A brief visual touch repeats quietly; device vibration stays on the button. */
+.touch-visual #momentRingCanvas,.touch-visual .touch-ring{animation:moment-tremor 6s linear infinite}
+.touch-visual .touch-wave{animation:moment-ripple 6s ease-out infinite}
+.touch-visual .touch-wave.w2{animation-delay:.22s}
+@keyframes moment-tremor{0%,5%,100%{translate:0 0}1%,3%{translate:-1.2px 0}2%,4%{translate:1.2px 0}}
+@keyframes moment-ripple{0%{transform:rotate(-15deg) scale(.80,.64);opacity:0}3%{opacity:.75}26%{transform:rotate(-15deg) scale(1.23,.984);opacity:0}100%{transform:rotate(-15deg) scale(1.23,.984);opacity:0}}
+@media(prefers-reduced-motion:reduce){.touch-visual #momentRingCanvas,.touch-visual .touch-ring,.touch-visual .touch-wave{animation:none}.touch-visual .touch-wave{opacity:.5}}
