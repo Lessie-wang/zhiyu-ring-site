@@ -1,11 +1,14 @@
 let ring;
 const fallback = document.getElementById('ringFallback');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-import('./ring3d.js').then(({ mountRing }) => {
-  ring = mountRing(document.getElementById('ringCanvas'));
+import('./ring3d.js?v=sample-20261030b').then(({ mountRing }) => {
+  ring = mountRing(document.getElementById('ringCanvas'), {
+    sampleAppearance:true, finish:'silver', ledLit:false, envKey:0.42, envBoost:1.2,
+    shape:{TH:2.45,HW:4.0,EDGE:0.38,DOME:0.025,GR_D:0,GR_H:0,CORNER:1.3}
+  });
   ring.setFinish('silver');
-  ring.exposure(1.7);
-  if (reducedMotion) ring.pose(0.4, 0.6, 0);
+  ring.exposure(1.25);
+  ring.pose(-0.35, 0.60, Math.PI);
   fallback.hidden = true;
   document.querySelectorAll('[data-finish]').forEach(button => {
     button.addEventListener('click', () => {

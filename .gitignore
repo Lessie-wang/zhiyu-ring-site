@@ -1,3 +1,5 @@
 dist/
 .netlify/
 .DS_Store
+
+.model-review/

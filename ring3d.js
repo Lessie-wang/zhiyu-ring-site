@@ -563,8 +563,54 @@ function contactShadow(){
 /* ============================================================
    主入口
    ============================================================ */
+// Photograph-constrained interior: dark encapsulation, charging contact and PCB details.
+function sampleInterior(halfWidth = 4.0) {
+  const root = new THREE.Group();
+  root.name = 'sample-interior';
+  const resin = new THREE.MeshPhysicalMaterial({
+    color:0x101a20, metalness:0.14, roughness:0.19,
+    clearcoat:1, clearcoatRoughness:0.08, side:THREE.BackSide,
+    envMapIntensity:0.8
+  });
+  const sleeve = new THREE.Mesh(new THREE.CylinderGeometry(RI-0.018,RI-0.018,halfWidth*1.82,160,1,true),resin);
+  sleeve.name = 'dark-resin-sleeve'; root.add(sleeve);
+  const put = (name, geometry, material, a, y=0, lift=0.045) => {
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.name = name; mesh.userData.explodeWithParent = true;
+    const r = RI-0.018-lift;
+    mesh.position.set(r*Math.sin(a),y,r*Math.cos(a));
+    mesh.lookAt(0,y,0); root.add(mesh); return mesh;
+  };
+  const material = (color,metalness,roughness) => new THREE.MeshPhysicalMaterial({color,metalness,roughness,envMapIntensity:0.75});
+  const copper = material(0xba9680,0.72,0.28);
+  const silver = material(0xc4c3ba,0.85,0.22);
+  const black = material(0x101318,0.1,0.3);
+  const gold = material(0xb49c68,0.65,0.34);
+  const contactAngle = 4.02;
+  put('charging-contact-copper-annulus',new THREE.RingGeometry(0.51,1.12,64),copper,contactAngle,0,0.06);
+  put('charging-contact-dark-separator',new THREE.CircleGeometry(0.51,48),black,contactAngle,0,0.07);
+  put('charging-contact-silver-center',new THREE.CircleGeometry(0.28,48),silver,contactAngle,0,0.082);
+  put('charging-contact-rim',new THREE.RingGeometry(1.10,1.17,64),silver,contactAngle,0,0.065);
+  // Component clusters are visual approximations of the photographed encapsulated PCB.
+  const chips = [[-.48,.8,1.1,.7],[-.77,-.6,.9,.7],[.50,.3,1.25,1.1],[.82,-.6,.65,.7],[1.14,.65,.8,.55],[-1.13,.1,.7,1.0]];
+  chips.forEach(([a,y,w,h],i)=>{
+    put('pcb-ic-'+i,new THREE.PlaneGeometry(w,h),black,contactAngle+a,y,.04);
+    for (const side of [-1,1]) for(let k=0;k<3;k++)
+      put('pcb-pad-'+i+'-'+side+'-'+k,new THREE.PlaneGeometry(.14,.21),silver,contactAngle+a+side*w/(2*RI),y+(k-1)*.25,.05);
+  });
+  [[-.24,1.35],[.22,1.15],[.43,-1.2],[-.45,-1.22],[.98,.1],[-1.0,1.05]].forEach(([a,y],i)=>{
+    put('gold-test-pad-'+i,new THREE.CircleGeometry(.16,20),gold,contactAngle+a,y,.05);
+  });
+  [[-.25,-1.25],[.28,-1.4],[.65,1.25],[-.92,-1.1]].forEach(([a,y],i)=>{
+    put('pcb-passive-'+i,new THREE.PlaneGeometry(.4,.23),material(0x9d9988,.35,.45),contactAngle+a,y,.05);
+  });
+  root.userData.sculptRuntime = { reference:'sample photographs', hiddenRegions:'approximate', chargingContact:true };
+  return root;
+}
+
 export function mountRing(canvas, opts){
   opts = opts || {};
+  canvas.dataset.modelVersion = opts.sampleAppearance ? 'sample-20261030' : 'concept';
   const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -598,10 +644,10 @@ export function mountRing(canvas, opts){
      免得调用方都得先挂载再补一次 setFinish('catseye')（那样会白建一张 roughnessMap）。*/
   const f0 = FINISHES[opts.finish] || FINISHES.black;
   const bandMat = new THREE.MeshPhysicalMaterial({
-    color: f0.color, metalness: f0.metalness, roughness: f0.roughness,
+    color: f0.color, metalness: f0.metalness, roughness: opts.sampleAppearance ? 0.13 : f0.roughness,
     clearcoat: f0.clearcoat, clearcoatRoughness: 0.22,
     envMapIntensity: f0.env,
-    roughnessMap: finishRoughness(f0)
+    roughnessMap: opts.sampleAppearance ? null : finishRoughness(f0)
   });
 
   const band = new THREE.Mesh(bandGeo, bandMat);
@@ -620,7 +666,8 @@ export function mountRing(canvas, opts){
   const sensors = new THREE.Group();
   sensors.rotation.x = Math.PI/2;
   // ledLit 默认 true（落地页交互演示保持原状）；宣传主图必须传 false，见 sensorArray() 注释
-  sensors.add(sensorArray(opts.ledLit !== false));
+  if (opts.sampleAppearance) sensors.add(sampleInterior(opts.shape?.HW || 4.0));
+  else sensors.add(sensorArray(opts.ledLit !== false));
   // 内舱电子件（2026-09-22，默认关）：官方剖切图同构的黑舱+金贴片+银盘。
   // 🔴 不做任何旋转——圆周定位全在 innerElectronics() 的 VIS_BIAS 里
   // （绕 z 轴会把 y≠0 的元件搅离内壁，见该函数注释）。
@@ -704,11 +751,11 @@ export function mountRing(canvas, opts){
       const f = FINISHES[k] || FINISHES.black;
       bandMat.color.setHex(f.color);
       bandMat.metalness = f.metalness;
-      bandMat.roughness = f.roughness;
+      bandMat.roughness = opts.sampleAppearance ? (k === 'black' ? 0.17 : 0.13) : f.roughness;
       bandMat.clearcoat = f.clearcoat;
       bandMat.envMapIntensity = f.env;
       if(bandMat.roughnessMap) bandMat.roughnessMap.dispose();
-      bandMat.roughnessMap = finishRoughness(f);
+      bandMat.roughnessMap = opts.sampleAppearance ? null : finishRoughness(f);
       bandMat.needsUpdate = true;
     },
     /** 诊断用：切环体的 side（FrontSide/BackSide/DoubleSide）。
@@ -743,6 +790,10 @@ export function mountRing(canvas, opts){
 
     /** 转到能看见内侧传感器的角度 */
     showInside(){
+      if (opts.sampleAppearance) {
+        ring.rotation.set(-0.65, 0.85, Math.PI);
+        vx = 0; vy = 0; frozen = true; return;
+      }
       const tx = 0.92, from = ring.rotation.x, t0 = performance.now();
       (function anim(){
         const k = Math.min(1, (performance.now()-t0)/900);
