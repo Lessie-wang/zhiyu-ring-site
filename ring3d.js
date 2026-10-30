@@ -415,7 +415,7 @@ function innerElectronics(){
 /* ---------- 环境贴图：柔和影棚（程序生成，不联网） ----------
    boost：影棚亮度。金属（metalness≈1）几乎只反射环境，
    落地页那种暗调用 1；出主图/海报要看清形体时拉到 2~3。 */
-function studioEnv(renderer, boost, key){
+function studioEnv(renderer, boost, key, productStudio){
   boost = boost || 1;
   /* key（0~1）：影棚基调。0 = 原来的暗影棚（落地页深色底用）。
      ⚠️ 只抬 boost 是抬不出浅底产品图的——boost 是等比放大，
@@ -479,6 +479,20 @@ function studioEnv(renderer, boost, key){
   x.fillStyle = `rgba(0,0,0,${0.55 - key * 0.42})`;   // 浅色棚要少压，否则黑环彻底沉底
   x.fillRect(600, 210, 250, 190);
 
+  if (productStudio) {
+    // High-contrast reflection cards give polished metal broad highlights and dark edges.
+    x.fillStyle = '#24272a'; x.fillRect(0, 0, 1024, 512);
+    const backdrop = x.createLinearGradient(0, 0, 0, 512);
+    backdrop.addColorStop(0, '#63686b');
+    backdrop.addColorStop(0.45, '#14171b');
+    backdrop.addColorStop(1, '#55514a');
+    x.fillStyle = backdrop; x.fillRect(0, 0, 1024, 512);
+    x.fillStyle = '#f7f4ea'; x.fillRect(90, 85, 220, 310);
+    x.fillStyle = '#c8cdd1'; x.fillRect(560, 30, 115, 440);
+    x.fillStyle = '#fcfaf5'; x.fillRect(0, 205, 1024, 34);
+    x.fillStyle = '#07090b'; x.fillRect(345, 95, 115, 320);
+    x.fillStyle = '#eee8dc'; x.fillRect(830, 100, 42, 325);
+  }
   const tex = new THREE.CanvasTexture(c);
   tex.mapping = THREE.EquirectangularReflectionMapping;
   tex.colorSpace = THREE.SRGBColorSpace;
@@ -618,7 +632,7 @@ export function mountRing(canvas, opts){
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   const scene = new THREE.Scene();
-  scene.environment = studioEnv(renderer, opts.envBoost, opts.envKey);
+  scene.environment = studioEnv(renderer, opts.envBoost, opts.envKey, opts.productStudio);
 
   const camera = new THREE.PerspectiveCamera(26, 1, 0.1, 400);
   camera.position.set(0, 9, 66);
@@ -644,7 +658,7 @@ export function mountRing(canvas, opts){
      免得调用方都得先挂载再补一次 setFinish('catseye')（那样会白建一张 roughnessMap）。*/
   const f0 = FINISHES[opts.finish] || FINISHES.black;
   const bandMat = new THREE.MeshPhysicalMaterial({
-    color: f0.color, metalness: f0.metalness, roughness: opts.sampleAppearance ? 0.13 : f0.roughness,
+    color: f0.color, metalness: f0.metalness, roughness: opts.sampleAppearance ? 0.065 : f0.roughness,
     clearcoat: f0.clearcoat, clearcoatRoughness: 0.22,
     envMapIntensity: f0.env,
     roughnessMap: opts.sampleAppearance ? null : finishRoughness(f0)
@@ -749,10 +763,11 @@ export function mountRing(canvas, opts){
   return {
     setFinish(k){
       const f = FINISHES[k] || FINISHES.black;
-      bandMat.color.setHex(f.color);
+      bandMat.color.setHex(opts.sampleAppearance && k === 'gold' ? 0xE2BD78 : f.color);
       bandMat.metalness = f.metalness;
-      bandMat.roughness = opts.sampleAppearance ? (k === 'black' ? 0.17 : 0.13) : f.roughness;
-      bandMat.clearcoat = f.clearcoat;
+      bandMat.roughness = opts.sampleAppearance ? (k === 'black' ? 0.085 : 0.065) : f.roughness;
+      bandMat.clearcoat = opts.sampleAppearance ? 0.22 : f.clearcoat;
+      bandMat.clearcoatRoughness = 0.055;
       bandMat.envMapIntensity = f.env;
       if(bandMat.roughnessMap) bandMat.roughnessMap.dispose();
       bandMat.roughnessMap = opts.sampleAppearance ? null : finishRoughness(f);
