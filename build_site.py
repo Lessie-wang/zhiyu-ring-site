@@ -24,6 +24,7 @@ for name in files:
         for source_url in ['https://lessie-wang.github.io/zhiyu-ring-site', 'https://zhiyu-ring.netlify.app']:
             text = text.replace(source_url, origin)
     (out / name).write_text(text)
+shutil.copytree(root / 'assets', out / 'assets', dirs_exist_ok=True)
 shutil.copytree(root / 'vendor', out / 'vendor', dirs_exist_ok=True)
 (out / '.nojekyll').touch()
 print(json.dumps({'public_directory': str(out), 'site_url': origin, 'files': len(files)}, ensure_ascii=False))

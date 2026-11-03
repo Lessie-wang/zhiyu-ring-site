@@ -56,3 +56,20 @@ touchButton.addEventListener('click', () => {
   clearTimeout(pulseTimeout);
   pulseTimeout = setTimeout(() => touchCard.classList.remove('is-pulsing'), 2100);
 });
+
+// Each edition keeps its own color, image and early-bird price.
+document.querySelectorAll('[data-product]').forEach(card => {
+  card.querySelectorAll('.product-swatch').forEach(button => {
+    button.addEventListener('click', () => {
+      const image = card.querySelector('.product-photo img');
+      image.src = button.dataset.image;
+      image.alt = `知愈${card.dataset.product === 'true' ? '真系列' : '触觉版'}${button.dataset.color}外观展示`;
+      card.querySelector('[data-price]').textContent = button.dataset.priceValue;
+      card.querySelectorAll('.product-swatch').forEach(item => {
+        const selected = item === button;
+        item.classList.toggle('selected', selected);
+        item.setAttribute('aria-pressed', String(selected));
+      });
+    });
+  });
+});
