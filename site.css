@@ -46,3 +46,5 @@
 .store-panorama img{object-fit:contain;background:#e5dacb}.edition-label{display:inline-block;width:fit-content;font-size:9px;color:#9d5434;border-bottom:1px solid #c8ac93;padding-bottom:3px;margin-top:12px;letter-spacing:1px}
 .product-photo img{object-fit:contain;background:#e9dfd1}
 .store-panorama img{object-fit:cover;object-position:left top}@media(max-width:700px){.store-panorama img{height:155px}.panorama-label{padding:30px 10px 11px}.panorama-label b{font-size:7px}}
+
+.petal-mark{width:1em;height:1em;object-fit:contain;display:inline-block;vertical-align:middle}.brand-symbol{display:flex;align-items:center;font-size:46px;line-height:1}.brand-symbol .petal-mark{width:46px;height:46px}.footer-main .brand-symbol .petal-mark{width:42px;height:42px}.mini-symbol .petal-mark{width:34px;height:34px}.store-kicker .petal-mark{width:18px;height:18px;margin-left:5px}.listening-mark .petal-mark{width:58px;height:58px}.listening-mark{opacity:1;transform:none}.closing-flower .petal-mark{width:240px;height:240px;opacity:.35}@media(max-width:700px){.brand-symbol .petal-mark{width:36px;height:36px}.closing-flower .petal-mark{width:160px;height:160px}}
